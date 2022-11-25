@@ -1,0 +1,7 @@
+{
+    "jestrunner.jestCommand": "npm test",
+    "cSpell.words": [
+        "sqlite",
+        "zipcode"
+    ]
+}
