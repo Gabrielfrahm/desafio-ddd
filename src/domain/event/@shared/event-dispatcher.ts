@@ -10,8 +10,15 @@ class EventDispatcher implements EventDispatcherInterface {
   }
 
   notify(event: EventInterface): void {
-    throw new Error("Method not implemented.");
+    const eventName = event.constructor.name;
+
+    if (this.eventHandlers[eventName]) {
+      this.eventHandlers[eventName].forEach((eventHandler) => {
+        eventHandler.handle(event);
+      });
+    }
   }
+
   register(
     eventName: string,
     eventHandle: EventHandleInterface<EventInterface>
@@ -22,14 +29,21 @@ class EventDispatcher implements EventDispatcherInterface {
 
     this.eventHandlers[eventName].push(eventHandle);
   }
+
   unregister(
     eventName: string,
     eventHandle: EventHandleInterface<EventInterface>
   ): void {
-    throw new Error("Method not implemented.");
+    if (this.eventHandlers[eventName]) {
+      const index = this.eventHandlers[eventName].indexOf(eventHandle);
+      if (index !== -1) {
+        this.eventHandlers[eventName].splice(index, 1);
+      }
+    }
   }
+
   unregisterAll(): void {
-    throw new Error("Method not implemented.");
+    this.eventHandlers = {};
   }
 }
 
